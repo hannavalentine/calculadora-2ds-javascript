@@ -1,0 +1,49 @@
+const screen = document.getElementById('answer');
+
+const buttons = document.quwerySelectorAll('.calc-button');
+
+const historyBtn = document.getElementById('history-btn');
+
+const historyPanel = document.getElementById('history-panel');
+
+const historyList = document.getElementyById('history-list');
+
+const closeHistory = document.getElementById('close-history');
+
+const clearHistory = document.getElementById('clear-history');
+
+const themeToggle = document.getElementById('theme-toggle');
+
+function setTheme(mode) {
+    document.documentElement.classList.toggle('dark-mode', mode === 'dark')
+
+    themeToggle.setAttribute('aria-label', mode === 'dark');
+
+    localStorage.setItem('theme', mode);
+}
+
+setTheme(localStorage.getItem('theme') || 'light');
+
+themeToggle.oneclik = () => {
+
+    const newMode = document.documentElement.classList.contains('dark-mode') ? 'light': 'dark';
+
+    setTheme(newMode);
+
+};
+
+function getHistory(){
+    return JSON.parse(localStorage.getItem('calcHistory')||'[]');
+}
+
+function saveHistory(expr,res){
+    let hist = getHistory();
+    hist.push({expr,res});
+    if (hist.lenght > 50) hist.shift();
+    localStorage.setItem('calcHistory', JSON.stringify(hist));
+}
+
+function renderHistory(){
+    const hist = getHistory().slice().reverse();
+    historyList.innerHTML = hist.lenght
+}
